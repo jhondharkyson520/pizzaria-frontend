@@ -55,7 +55,8 @@ export default function Dashboard({orders}: HomeProps) {
                 order_id: id,
             }
         });
-        setModalItem(response.data);
+        const orderItems = response.data.details?.order?.order || [];
+        setModalItem(orderItems);
         setModalVisible(true);       
     }
 
@@ -124,9 +125,9 @@ export default function Dashboard({orders}: HomeProps) {
 export const getServerSideProps = canSSRAuth(async (ctx) => {
     const apiClient = setupAPIClient(ctx);
     const response = await apiClient.get('/order/list-all');
-    //console.log("orders recebidos:", response.data);
     const orders = response.data.orders?.order.orders || [];
-
+    //console.log('orders', orders);
+    
     return{
         props: {
             orders            
