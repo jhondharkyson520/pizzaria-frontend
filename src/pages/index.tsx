@@ -1,53 +1,42 @@
-import {useContext, FormEvent, useState} from 'react'
+import {useContext, FormEvent, useState} from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import styles from '../styles/home.module.scss'
+import styles from '../styles/home.module.scss';
 import logoImg from '../../public/logo.svg';
-import {Input} from '../components/ui/Input/index'
-import {Button} from '../components/ui/Button/index'
+import {Input} from '../components/ui/Input/index';
+import {Button} from '../components/ui/Button/index';
 import Link from 'next/link';
-import {AuthContext} from '../contexts/AuthContext'
+import {AuthContext} from '../contexts/AuthContext';
 import {toast} from 'react-toastify';
-import {GetServerSideProps} from 'next';
-import { log } from 'console';
-import {canSSRGuest} from '../utils/canSSRGuest'
+import {canSSRGuest} from '../utils/canSSRGuest';
 
-
-export default function Home() {
-  
+export default function Home() {  
   const {signIn} = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [loading, setLoading] = useState(false);
 
-  async function handleLogin(event: FormEvent ){
-
-
+  async function handleLogin(event: FormEvent ) {
     event.preventDefault();
 
-    if(email === '' || password === ''){
+    if(email === '' || password === '') {
       toast.warning("Preencha todos os dados!");
       return;
     }
 
     setLoading(true);
-
     let data = {
       email,
       password
     }
-
     await signIn(data);
     setLoading(false);
-
   }
 
   return (
     <>
     <Head>
-      <title>SujeitoPizza - Faça seu login</title>
-
+      <title>Pizzaria - Faça seu login</title>
     </Head>
     <div className={styles.containerCenter}>
             <Image src={logoImg} alt="Logo Sujeito Pizzaria"/>
@@ -82,14 +71,12 @@ export default function Home() {
 
             </div>
     </div>
-
     </>
   )
 }
-
 
 export const getServerSideProps = canSSRGuest(async (ctx) => {
   return {
     props: {}
   }
-})
+});

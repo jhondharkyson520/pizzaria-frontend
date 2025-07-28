@@ -1,80 +1,62 @@
-import {useState, FormEvent, useContext} from 'react'
+import {useState, FormEvent, useContext} from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import logoImg from '../../../public/logo.svg';
-import {Input} from '../../components/ui/Input'
-import {Button} from '../../components/ui/Button'
+import {Input} from '../../components/ui/Input';
+import {Button} from '../../components/ui/Button';
 import Link from 'next/link';
 import {AuthContext} from '../../contexts/AuthContext';
 import { toast } from 'react-toastify';
-import {Header} from '../../components/Header'
-import styles from './styles.module.scss'
+import {Header} from '../../components/Header';
+import styles from './styles.module.scss';
 
 export default function SignUp() {
-
   const {signUp} = useContext(AuthContext);
-
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [loading, setLoading] = useState(false);
 
-  async function handleSignUp(event: FormEvent){
+  async function handleSignUp(event: FormEvent) {
     event.preventDefault();
 
-    if(name === '' || email === '' || password === ''){
-
+    if(name === '' || email === '' || password === '') {
       toast.warning("Preencha todos os campos!");
       return;
     }
 
     setLoading(true);
-
     let data = {
       name,
       email,
       password
-    }
-
+    };
     await signUp(data);
-
     setLoading(false);
+  }  
 
-  }
-
-  
-
-  return (
-    
+  return (  
     <>
     <Header/>
-            <Head>
-               <title>Novo usuário - Sujeito Pizzaria</title>
-            </Head>
-
-
+    <Head>
+      <title>Novo usuário - Sujeito Pizzaria</title>
+    </Head>
     <div className={styles.containerCenter}>
-      
-            
             <main className={styles.login}>
                 <h1>Cadastrar um novo usuário</h1>
               <form onSubmit={handleSignUp}>
-                    <Input
+                  <Input
                     placeholder='Digite seu nome'
                     type='text'
                     value = {name}
                     onChange={ (e) => setName(e.target.value)}
-                    />
-
+                  />
                   <Input
                     placeholder='Digite seu email'
                     type='text'
                     value = {email}
                     onChange={ (e) => setEmail(e.target.value)}
                   />
-
                   <Input
                     placeholder='Digite sua senha'
                     type='password'
@@ -84,19 +66,12 @@ export default function SignUp() {
                   <Button
                     type="submit"
                     loading={loading}
-                   
-
                   >
                       Cadastrar
-                  </Button>
-                  
+                  </Button>                  
               </form>
-
-              
-
             </main>
     </div>
-
     </>
-  )
+  );
 }
